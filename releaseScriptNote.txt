@@ -1,0 +1,140 @@
+step1
+
+#in powershell
+$OWNER_NAME = "pedivillano-outlook.com"
+$APP_NAME = "app1"
+$API_TOKEN = "2fc7f2b1fe71a74b4c2b7f486bf9d676f2d08c43"
+
+$headers = @{
+    "accept" = "application/json"
+    "X-API-Token" = $API_TOKEN
+    "Content-Type" = "application/json"
+    "Content-Length" = 0
+}
+
+$uri = "https://api.appcenter.ms/v0.1/apps/$OWNER_NAME/$APP_NAME/uploads/releases"
+
+Invoke-RestMethod -Uri $uri -Method Post -Headers $headers
+
+#the output is
+{
+id                : 2d6e27b7-6b07-4f85-94a4-d5c0e09d4375
+package_asset_id  : AFFB38BF-0885-4B3E-8A2C-06A5E995B064
+upload_domain     : https://file.appcenter.ms
+token             : ?sv=2019-02-02&sr=c&si=7c99ad9e-16f6-4195-8b3c-44a20cf121ca&sig=BLJTDCbN1r2KvwaNItPzQIjn7jB7PwkDSPKHO%2BhnEBU%3D&se=2023-08-13T16%3A3
+                    7%3A02Z&t=distribution
+url_encoded_token : %3fsv%3d2019-02-02%26sr%3dc%26si%3d7c99ad9e-16f6-4195-8b3c-44a20cf121ca%26sig%3dBLJTDCbN1r2KvwaNItPzQIjn7jB7PwkDSPKHO%252BhnEBU%253D%
+                    26se%3d2023-08-13T16%253A37%253A02Z%26t%3ddistribution
+}
+
+#in command prompt
+set    OWNER_NAME="pedivillano-outlook.com"
+set    APP_NAME="app1"
+set    API_TOKEN="2fc7f2b1fe71a74b4c2b7f486bf9d676f2d08c43"
+curl -X POST "https://api.appcenter.ms/v0.1/apps/%OWNER_NAME%/%APP_NAME%/uploads/releases" -H  "accept: application/json" -H  "X-API-Token: %API_TOKEN%" -H  "Content-Type: application/json" -H "Content-Length: 0"
+
+#the output is
+{
+	"id": "66d21c81-f5d6-429c-aca2-b016bd011849",
+	"package_asset_id": "0880980C-B0E6-4D14-8C3B-42B6B133436B",
+	"upload_domain": "https://file.appcenter.ms",
+	"token": "?sv=2019-02-02&sr=c&si=0880980c-b0e6-4d14-8c3b-42b6b133436b&sig=KI7ERC4TAqJiL437ek%2FTN4SQqHcF9JM9ij8H2Hluy00%3D&se=2023-08-13T17%3A11%3A11Z&t=distribution",
+	"url_encoded_token": "%3fsv%3d2019-02-02%26sr%3dc%26si%3d0880980c-b0e6-4d14-8c3b-42b6b133436b%26sig%3dKI7ERC4TAqJiL437ek%252FTN4SQqHcF9JM9ij8H2Hluy00%253D%26se%3d2023-08-13T17%253A11%253A11Z%26t%3ddistribution"
+}
+
+step2
+#in powershell version1 FAILED
+$API_TOKEN = "2fc7f2b1fe71a74b4c2b7f486bf9d676f2d08c43"
+$PACKAGE_ASSET_ID = "AFFB38BF-0885-4B3E-8A2C-06A5E995B064"
+$FILE_NAME = "app-release.apk"
+$URL_ENCODED_TOKEN = "%3fsv%3d2019-02-02%26sr%3dc%26si%3d7c99ad9e-16f6-4195-8b3c-44a20cf121ca%26sig%3dBLJTDCbN1r2KvwaNItPzQIjn7jB7PwkDSPKHO%252BhnEBU%253D%26se%3d2023-08-13T16%253A37%253A02Z%26t%3ddistribution"
+$file = "C:\Users\11510\Downloads\AndroidNative-master\AndroidNative-master\app\release\app-release.apk"
+$FILE_SIZE_BYTES = (Get-Item $file).Length
+$APP_TYPE='application/vnd.android.package-archive' # iOS uses `application/octet-stream` instead.
+$METADATA_URL = "https://file.appcenter.ms/upload/set_metadata/$PACKAGE_ASSET_ID?file_name=$FILE_NAME&file_size=$FILE_SIZE_BYTES&token=$URL_ENCODED_TOKEN&content_type=$APP_TYPE"
+$headers = @{
+    "Content-Type" = "application/json"
+    "Accept" = "application/json"
+    "X-API-Token" = $API_TOKEN
+}
+Invoke-RestMethod -Uri $METADATA_URL -Method Post -Headers $headers -UseBasicParsing
+
+#in powershell version2 FAILED
+$FILE_NAME = "app-release.apk"
+$RELEASE_FILE_LOCATION = "C:\Users\11510\Downloads\AndroidNative-master\AndroidNative-master\app\release\app-release.apk"  # Replace with actual file path
+$API_TOKEN = "2fc7f2b1fe71a74b4c2b7f486bf9d676f2d08c43"
+$PACKAGE_ASSET_ID = "7C99AD9E-16F6-4195-8B3C-44A20CF121CA"  # Replace with the actual ID
+$URL_ENCODED_TOKEN = [System.Web.HttpUtility]::UrlEncode($API_TOKEN)
+$APP_TYPE = 'application/vnd.android.package-archive'  # iOS uses `application/octet-stream` instead.
+
+$FILE_SIZE_BYTES = (Get-Item $RELEASE_FILE_LOCATION).Length
+
+$METADATA_URL = "https://file.appcenter.ms/upload/set_metadata/$PACKAGE_ASSET_ID?file_name=$FILE_NAME&file_size=$FILE_SIZE_BYTES&token=$URL_ENCODED_TOKEN&content_type=$APP_TYPE"
+
+$headers = @{
+    "Content-Type" = "application/json"
+    "Accept" = "application/json"
+    "X-API-Token" = $API_TOKEN
+}
+
+Invoke-RestMethod -Uri $METADATA_URL -Method Post -Headers $headers -UseBasicParsing
+
+
+
+#in command promanpt SUCCEEDED
+set PACKAGE_ASSET_ID="0880980C-B0E6-4D14-8C3B-42B6B133436B"
+set URL_ENCODED_TOKEN="%3fsv%3d2019-02-02%26sr%3dc%26si%3d0880980c-b0e6-4d14-8c3b-42b6b133436b%26sig%3dKI7ERC4TAqJiL437ek%252FTN4SQqHcF9JM9ij8H2Hluy00%253D%26se%3d2023-08-13T17%253A11%253A11Z%26t%3ddistribution"
+
+set FILE_NAME=app-release.apk
+set RELEASE_FILE_LOCATION=C:\Users\11510\Downloads\AndroidNative-master\AndroidNative-master\app\release\app-release.apk
+set API_TOKEN=2fc7f2b1fe71a74b4c2b7f486bf9d676f2d08c43
+
+for %I in (%RELEASE_FILE_LOCATION%) do @set FILE_SIZE_BYTES=%~zI
+echo %FILE_SIZE_BYTES%
+
+set APP_TYPE=application/vnd.android.package-archive
+set METADATA_URL=https://file.appcenter.ms/upload/set_metadata/%PACKAGE_ASSET_ID%^?file_name=%FILE_NAME%^&file_size=%FILE_SIZE_BYTES%^&token=%URL_ENCODED_TOKEN%^&content_type=%APP_TYPE%
+curl -s -d POST -H "Content-Type: application/json" -H "Accept: application/json" -H "X-API-Token: %API_TOKEN%" "%METADATA_URL%"
+
+#the output is
+{
+	"error": false,
+	"id": "0880980c-b0e6-4d14-8c3b-42b6b133436b",
+	"chunk_size": 4194304,
+	"resume_restart": false,
+	"chunk_list": [
+		1,
+		2,
+		3
+	],
+	"blob_partitions": 1,
+	"status_code": "Success"
+}
+
+
+
+
+step3
+#in powershell SUCCEEDED
+
+$file = "C:\Users\11510\Downloads\AndroidNative-master\AndroidNative-master\app\release\app-release.apk"
+$CHUNK_SIZE = 4194304
+$RELEASE_FILE_LOCATION = "C:\Users\11510\Downloads\AndroidNative-master\AndroidNative-master\app\release\app-release.apk"
+$OUTPUT_DIRECTORY = "C:\Users\11510\Downloads\AndroidNative-master\AndroidNative-master\app\release\temp"
+
+$sourceStream = [System.IO.File]::OpenRead($RELEASE_FILE_LOCATION)
+$buffer = New-Object byte[] $CHUNK_SIZE
+
+$index = 0
+while ($sourceStream.Position -lt $sourceStream.Length) {
+    $outputFilePath = Join-Path $OUTPUT_DIRECTORY ("chunk" + $index)
+    $outputStream = [System.IO.File]::OpenWrite($outputFilePath)
+    
+    $bytesRead = $sourceStream.Read($buffer, 0, $CHUNK_SIZE)
+    $outputStream.Write($buffer, 0, $bytesRead)
+    
+    $outputStream.Close()
+    $index++
+}
+
+$sourceStream.Close()
