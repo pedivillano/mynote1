@@ -1,0 +1,193 @@
+9531f1cf6c169c31e1694f068239b568c4e9f115
+
+#step1❤️
+
+😊🔜
+set OWNER_NAME="pedivillano-outlook.com"
+set APP_NAME="app1"
+set API_TOKEN="9531f1cf6c169c31e1694f068239b568c4e9f115"
+curl -X POST ^"https://api.appcenter.ms/v0.1/apps/%OWNER_NAME%/%APP_NAME%/uploads/releases^" -H  ^"accept: application/json^" -H  ^"X-API-Token: %API_TOKEN%^" -H  ^"Content-Type: application/json^" -H ^"Content-Length: 0^"
+😊🔜
+
+
+#step2❤️❤️
+
+😊🔜let s1 = '{"id":"7c44e718-9d65-4d33-a52f-d80ef0a56657","package_asset_id":"B9E475C0-B260-4137-B49A-C03C8099F2A8","upload_domain":"https://file.appcenter.ms","token":"?sv=2019-02-02&sr=c&si=b9e475c0-b260-4137-b49a-c03c8099f2a8&sig=DmJHQijCJbTnIIQusrQw9%2Bnla2XVUk9onW7yS2pO4EQ%3D&se=2023-08-15T07%3A48%3A33Z&t=distribution","url_encoded_token":"%3fsv%3d2019-02-02%26sr%3dc%26si%3db9e475c0-b260-4137-b49a-c03c8099f2a8%26sig%3dDmJHQijCJbTnIIQusrQw9%252Bnla2XVUk9onW7yS2pO4EQ%253D%26se%3d2023-08-15T07%253A48%253A33Z%26t%3ddistribution"}';
+let js1 =JSON.parse(s1);let s2 = JSON.stringify(js1,null,"\t");console.log(s2);
+😊🔜
+
+😊🔜paste the response here👌(●'◡'●)👌 #output1
+{
+
+	"package_asset_id": "B9E475C0-B260-4137-B49A-C03C8099F2A8",
+
+	"url_encoded_token": "%3fsv%3d2019-02-02%26sr%3dc%26si%3db9e475c0-b260-4137-b49a-c03c8099f2a8%26sig%3dDmJHQijCJbTnIIQusrQw9%252Bnla2XVUk9onW7yS2pO4EQ%253D%26se%3d2023-08-15T07%253A48%253A33Z%26t%3ddistribution"
+}
+😊🔜
+
+
+
+😊🔜
+set PACKAGE_ASSET_ID="B9E475C0-B260-4137-B49A-C03C8099F2A8"
+set URL_ENCODED_TOKEN="%3fsv%3d2019-02-02%26sr%3dc%26si%3db9e475c0-b260-4137-b49a-c03c8099f2a8%26sig%3dDmJHQijCJbTnIIQusrQw9%252Bnla2XVUk9onW7yS2pO4EQ%253D%26se%3d2023-08-15T07%253A48%253A33Z%26t%3ddistribution"
+
+set FILE_NAME="app-release.apk"
+set file="C:\Users\admin\Downloads\AndroidNative-master\AndroidNative-master\app\release\app-release.apk"
+FOR %A IN (%file%) DO set FILE_SIZE_BYTES=%~zA
+set APP_TYPE="application/vnd.android.package-archive" # iOS uses `application/octet-stream` instead.
+set METADATA_URL="https://file.appcenter.ms/upload/set_metadata/%PACKAGE_ASSET_ID%?file_name=%FILE_NAME%&file_size=%FILE_SIZE_BYTES%&token=%URL_ENCODED_TOKEN%&content_type=%APP_TYPE%"
+curl -s -d POST -H ^"Content-Type: application/json^" -H ^"Accept: application/json^" -H ^"X-API-Token: $API_TOKEN^" ^"%METADATA_URL%^"
+😊🔜
+
+😊🔜let s1 = '{"error":false,"id":"b9e475c0-b260-4137-b49a-c03c8099f2a8","chunk_size":4194304,"resume_restart":false,"chunk_list":[1,2,3],"blob_partitions":1,"status_code":"Success"}';let js1 =JSON.parse(s1);let s2 = JSON.stringify(js1,null,"\t");console.log(s2);😊🔜
+
+😊🔜paste the response here👌(●'◡'●)👌#output2
+{
+	"error": false,
+	"id": "b9e475c0-b260-4137-b49a-c03c8099f2a8",
+	"chunk_size": 4194304,
+	"resume_restart": false,
+	"chunk_list": [
+		1,
+		2,
+		3
+	],
+	"blob_partitions": 1,
+	"status_code": "Success"
+}
+😊🔜
+
+#step3❤️❤️❤️
+#in powershell SUCCEEDED
+😊🔜
+powershell
+$file = "C:\Users\admin\Downloads\AndroidNative-master\AndroidNative-master\app\release\app-release.apk"
+$CHUNK_SIZE = 4194304
+$RELEASE_FILE_LOCATION = "C:\Users\admin\Downloads\AndroidNative-master\AndroidNative-master\app\release\app-release.apk"
+$OUTPUT_DIRECTORY = "C:\Windows\System32\temp"
+
+$sourceStream = [System.IO.File]::OpenRead($RELEASE_FILE_LOCATION)
+$buffer = New-Object byte[] $CHUNK_SIZE
+
+$index = 0
+while ($sourceStream.Position -lt $sourceStream.Length) {
+    $outputFilePath = Join-Path $OUTPUT_DIRECTORY ("chunk" + $index)
+    $outputStream = [System.IO.File]::OpenWrite($outputFilePath)
+    
+    $bytesRead = $sourceStream.Read($buffer, 0, $CHUNK_SIZE)
+    $outputStream.Write($buffer, 0, $bytesRead)
+    
+    $outputStream.Close()
+    $index++
+}
+
+$sourceStream.Close()
+
+
+😊🔜
+
+@echo off
+setlocal enabledelayedexpansion
+
+set CHUNK_SIZE=4194304
+set RELEASE_FILE_LOCATION="C:\Users\admin\Downloads\AndroidNative-master\AndroidNative-master\app\release\app-release.apk"
+set TEMP_DIR=C:\work\temp
+
+mkdir %TEMP_DIR%
+
+set count=aa
+for %%i in ("%RELEASE_FILE_LOCATION%") do (
+	set "split_file=%TEMP_DIR%\split!count!"
+	certutil -split -v -f -p "" -sz %CHUNK_SIZE% "%%~i" "!split_file!"
+	set /a "char=1!count! + 1"
+	for %%c in (!char!) do set "count=%%c"
+)
+
+endlocal
+#step4❤️❤️❤️❤️
+
+
+@echo off
+set BLOCK_NUMBER=0
+set PACKAGE_ASSET_ID="0880980C-B0E6-4D14-8C3B-42B6B133436B"
+set URL_ENCODED_TOKEN="%3fsv%3d2019-02-02%26sr%3dc%26si%3d6a8fb8d8-9b7b-4ab0-a0a9-44957e90413e%26sig%3dSQXveeOavgOuw5Rxg5%252BhNIkQgvfW57VUYwoiNH%252BwJJU%253D%26se%3d2023-08-14T05%253A43%253A48Z%26t%3ddistribution"
+for %%i in (temp/*) do(
+	set /a BLOCK_NUMBER=BLOCK_NUMBER+1
+	for /f %%j in ("%%i") do set CONTENT_LENGTH=%%~zj
+	set 
+	UPLOAD_CHUNK_URL="https://file.appcenter.ms/upload/upload_chunk/%PACKAGE_ASSET_ID%?token=%URL_ENCODED_TOKEN%&block_number=%BLOCK_NUMBER%"
+	curl -X POST "%UPLOAD_CHUNK_URL%" --data-binary "@%%i" -H "Content-Length: %CONTENT_LENGTH%" -H "Content-Type: %CONTENT_TYPE%"
+)
+😭🔜 FAILED
+set BLOCK_NUMBER=0
+set filepath=C:\Windows\System32\temp
+set CONTENT_TYPE="application/vnd.android.package-archive" # iOS uses `application/octet-stream` instead.
+cmd /c "for %%i in (%filepath%\*) do (set /a BLOCK_NUMBER=BLOCK_NUMBER+1 &
+	for /f %%j in ("%%i") do set CONTENT_LENGTH=%%~zj &
+	set UPLOAD_CHUNK_URL="https://file.appcenter.ms/upload/upload_chunk/%%PACKAGE_ASSET_ID%%?token=%%URL_ENCODED_TOKEN%%" &
+	curl -X POST "%UPLOAD_CHUNK_URL%" --data-binary "@%%i" -H "Content-Length: %CONTENT_LENGTH%" -H "Content-Type: %CONTENT_TYPE%")"
+😭🔜 FAILED
+
+😊🔜
+$BLOCK_NUMBER = 0
+$TEMP = "C:\Windows\System32\temp"
+$PACKAGE_ASSERT_ID = "E991FAFD-8477-4EDE-81B7-3A58DB2041D9"
+$URL_ENCODED_TOKEN="%3fsv%3d2019-02-02%26sr%3dc%26si%3de991fafd-8477-4ede-81b7-3a58db2041d9%26sig%3dLJ5jsjS2S6LqKWcW7hALyrJy9TLXjcadUSj9YgY7UJM%253D%26se%3d2023-08-14T09%253A13%253A32Z%26t%3ddistribution"
+$CONTENT_TYPE = "application/vnd.android.package-archive"
+for ($i = Get-ChildItem -Path $TEMP\*; $i; $i = $i.Next){
+	Write-Host $i
+	$BLOCK_NUMBER++
+	$CONTENT_LENGTH = (Get-childItem -Path $i | Measure-Object -Property Length -Sum).Sum
+	$UPLOAD_CHUNK_URL = "https://file.appcenter.ms/upload/upload_chunk/$PACKAGE_ASSERT_ID?token=$URL_ENCODED_TOKEN&block_number=$BLOCK_NUMBER"
+	curl -Method POST -Uri $UPLOAD_CHUNK_URL -InFile ($i).FullName -Headers @{"Content-Length" = "$CONTENT_LENGTH"; "Content-Type" = "$CONTENT_TYPE"}
+}
+😊🔜
+
+for ($i = Get-ChildItem -Path $TEMP\*; $i; $i = $i.Next){
+Write-Host $i Get-Type "$i \n" 
+}
+
+set /a BLOCK_NUMBER=0 & setlocal ENABLEDELAYEDEXPANSION & set file_path=C:\Users\admin\Downloads\AndroidNative-master\AndroidNative-master\app\release\temp & for  %i in (%file_path%\*) do (set /a BLOCK_NUMBER=BLOCK_NUMBER+1 &echo  !BLOCK_NUMBER! &for %j in (%i) do (set CHUNK_SIZE=%~zj& echo %~zj)) & endlocal
+
+for /l %i in (1,1,10) do (set /a count=count+1 & echo  %count%)
+
+😭
+cmd /v:on "for /l %i in (1,1,10) do @(set /a count+=1 & echo !count!)"
+😭
+
+😁
+@echo off 
+setlocal enabledelayedexpansion
+
+
+for /l %%i in (1,1,10) do (
+	set /a count+=1
+	echo !count!
+)
+
+endlocal
+😁
+
+output is：
+1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+
+😊🔜
+set TEMP_LOCATION=C:\Users\admin\Downloads\AndroidNative-master\AndroidNative-master\app\release\temp
+set CONTENT_TYPE="application/vnd.android.package-archive" # iOS uses `application/octet-stream` instead.
+loop.bat
+😊🔜
+
+
+
+	set UPLOAD_CHUNK_URL="https://file.appcenter.ms/upload/upload_chunk/%PACKAGE_ASSET_ID%?token=%URL_ENCODED_TOKEN%&block_number=!BLOCK_NUMBER!"
+	
+	curl -X POST !UPLOAD_CHUNK_URL! --data-binary "@%%i" -H "Content-Length: !CONTENT_LENGTH!" -H "Content-type: application/octet-stream"
