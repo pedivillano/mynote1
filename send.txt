@@ -1,0 +1,10 @@
+@echo off
+setlocal enabledelayedexpansion
+
+set "DISTRIBUTE_URL=https://api.appcenter.ms/v0.1/apps/%OWNER_NAME%/%APP_NAME%/releases/%RELEASE_ID%"
+
+curl -H "Content-Type: application/json" -H "Accept: application/json" -H "X-API-Token: %API_TOKEN%" ^
+--data "{\"destinations\": [{ \"name\": \"%DISTRIBUTION_GROUP%\"}] }" ^
+-X PATCH ^
+%DISTRIBUTE_URL%
+

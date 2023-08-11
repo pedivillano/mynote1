@@ -1,0 +1,8 @@
+FINISHED_URL="https://file.appcenter.ms/upload/finished/$PACKAGE_ASSET_ID?token=$URL_ENCODED_TOKEN"
+curl -d POST -H "Content-Type: application/json" -H "Accept: application/json" -H "X-API-Token: $API_TOKEN" "$FINISHED_URL"
+
+set COMMIT_URL=https://api.appcenter.ms/v0.1/apps/%OWNER_NAME%/%APP_NAME%/uploads/releases/%ID%
+curl -H "Content-Type: application/json" -H "Accept: application/json" -H "X-API-Token: %API_TOKEN%" ^
+--data "{\"upload_status\": \"uploadFinished\",\"id\": \"%ID%\"}" -X PATCH "%COMMIT_URL%"
+
+

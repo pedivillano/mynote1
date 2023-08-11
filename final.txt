@@ -1,0 +1,19 @@
+@echo off
+setlocal enabledelayedexpansion
+
+set "RELEASE_STATUS_URL=https://api.appcenter.ms/v0.1/apps/%OWNER_NAME%/%APP_NAME%/uploads/releases/%UPLOAD_ID%"
+for /f %%i in ('curl -s -H "Content-Type: application/json" -H "Accept: application/json" -H "X-API-Token: %API_TOKEN%" %RELEASE_STATUS_URL%') do (
+    set "POLL_RESULT=%%i"
+)
+
+REM Function to extract a property value from JSON using PowerShell
+for /f %%a in ('powershell -command "$json = '%POLL_RESULT%'; $obj = $json | ConvertFrom-Json; $obj.release_distinct_id"') do (
+    set "RELEASE_ID=%%a"
+)
+
+if "%RELEASE_ID%"=="null" (
+    echo Failed to find release from appcenter
+    exit /b 1
+)
+
+echo Release ID: %Release_ID%
