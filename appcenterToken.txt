@@ -1,1 +1,5 @@
+appcenter login --token <accessToken>
+
 6bb779da7c6901c7c8254834d6e2c2826b99adab
+
+appcenter login --token 6bb779da7c6901c7c8254834d6e2c2826b99adab
