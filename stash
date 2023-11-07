@@ -1,0 +1,97 @@
+
+
+apply plugin: 'com.android.application'
+apply plugin: 'kotlin-android'
+//apply from: "$flutterRoot/packages/flutter_tools/gradle/flutter.gradle"
+
+//def key_properties = 'key.properties'
+//
+//def keystoreProperties = new Properties()
+//def keystorePropertiesFile = rootProject.file(key_properties)
+//
+//if (keystorePropertiesFile.exists()) {
+//    keystoreProperties.load(new FileInputStream(keystorePropertiesFile))
+//}
+
+android {
+    namespace "com.example.viewpagertest"
+//    compileSdkVersion flutter.compileSdkVersion
+//    ndkVersion flutter.ndkVersion
+
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+
+    kotlinOptions {
+        jvmTarget = '1.8'
+    }
+
+    sourceSets {
+        main.java.srcDirs += 'src/main/kotlin'
+    }
+
+    defaultConfig {
+        applicationId "nz.co.nzb"
+        minSdk 31
+        targetSdk 33
+        versionCode 1
+        versionName "1.0"
+//        versionCode flutterVersionCode.toInteger()
+//        versionName flutterVersionName
+    }
+
+    signingConfigs {
+        debug {
+            storeFile file("keystore/debug.keystore")
+            storePassword 'android'
+            keyAlias 'androiddebugkey'
+            keyPassword 'android'
+        }
+//         release {
+//             keyAlias keystoreProperties['keyAlias']
+//             keyPassword keystoreProperties['keyPassword']
+//             storeFile keystoreProperties['storeFile'] ? file(keystoreProperties['storeFile']) : null
+//             storePassword keystoreProperties['storePassword']
+//         }
+    }
+
+    buildTypes {
+//        release {
+//            signingConfig signingConfigs.release
+//        }
+
+        debug {
+            signingConfig signingConfigs.debug
+            manifestPlaceholders = [envName: "dev"]
+            // resValue "string", "app_name", "@string/app_name_dev"
+        }
+        develop {
+            manifestPlaceholders = [envName: "dev"]
+            applicationIdSuffix '.develop'
+            // resValue "string", "app_name", "@string/app_name_dev"
+        }
+        uat {
+            manifestPlaceholders = [envName: "uat"]
+            applicationIdSuffix '.uat'
+            // resValue "string", "app_name", "@string/app_name_uat"
+        }
+        preprod {
+            manifestPlaceholders = [envName: "pre_prod"]
+            applicationIdSuffix '.preprod'
+            // resValue "string", "app_name", "@string/app_name_pre_prod"
+        }
+        production {
+            manifestPlaceholders = [envName: "prod"]
+            // resValue "string", "app_name", "@string/app_name_prod"
+        }
+    }
+}
+//
+//flutter {
+//    source '../..'
+//}
+
+dependencies {
+    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:1.5"
+}
