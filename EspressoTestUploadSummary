@@ -1,0 +1,4 @@
+appcenter test run espresso --app "Z-temp-IOSorg/ForAndroidExpressotest" --devices 4bd2a4e2 --app-path C:\Users\Administrator\AndroidStudioProjects\AndroidAppForEspressoTest\app\build\outputs\apk\debug\app-debug.apk  --test-series "master" --locale "en_US"  --build-dir C:\Users\Administrator\AndroidStudioProjects\AndroidAppForEspressoTest\app\build\outputs\apk\androidTest\debug\ --token dd567633dd53c1cfc7e37493edc6d7bdcc8d0b2c
+
+Add the Reporter class instance in the test class
+
